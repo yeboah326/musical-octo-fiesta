@@ -4,6 +4,7 @@ from . import forms
 from django.http import HttpResponseRedirect
 
 # Create your views here.
+
 def doctorSignUpView(request):
     doctorUserForm = forms.DoctorUserForm()
     doctorCustomForm = forms.DoctorCustomForm()
@@ -22,3 +23,4 @@ def doctorSignUpView(request):
             doctorGroup[0].user_set.add(user)
         return HttpResponseRedirect('doctorLogIn')
     return render(request,'doctors/doctorSignUp.html', context=doctorForms)
+

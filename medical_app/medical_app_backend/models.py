@@ -32,7 +32,7 @@ class Doctor(models.Model):
         verbose_name_plural = ('doctors')
 
     def __str__(self):
-        return self.name
+        return f"{self.user.first_name}  {self.user.last_name}"
 
     def get_absolute_url(self):
         return reverse("nurse_detail", kwargs={"pk": self.pk})

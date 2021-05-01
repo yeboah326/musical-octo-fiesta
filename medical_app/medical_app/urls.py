@@ -17,6 +17,7 @@ Including another URLconf
 from medical_app_backend import views
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth.views import LoginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +26,5 @@ urlpatterns = [
 # Doctor URLs
 urlpatterns += [
     path('doctorSignUp', views.doctorSignUpView,name='doctorSignUp'),
+    path('doctorLogIn', LoginView.as_view(template_name='doctors/doctorLogIn.html')),
 ]

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Doctor, Hospital, Nurse
+from .models import Doctor, Hospital, Nurse, Report
 
 # Register your models here.
 @admin.register(Doctor)
@@ -13,3 +13,8 @@ class HospitalAdmin(admin.ModelAdmin):
 @admin.register(Nurse)
 class NurseAdmin(admin.ModelAdmin):
     list_display = ['name','hospital']
+
+@admin.register(Report)
+class ReportAdmin(admin.ModelAdmin):
+    list_display = ['name','hospital','doctor','nurse']
+

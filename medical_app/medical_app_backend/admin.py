@@ -4,7 +4,7 @@ from .models import Doctor, Hospital, Nurse
 # Register your models here.
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ['hospital']
+    list_display = ['name','hospital']
 
 @admin.register(Hospital)
 class HospitalAdmin(admin.ModelAdmin):

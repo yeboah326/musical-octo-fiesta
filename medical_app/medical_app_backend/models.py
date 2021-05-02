@@ -21,6 +21,7 @@ class Hospital(models.Model):
 class Doctor(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50,default="unknownDoctor") # remove default in main project
     hospital = models.ForeignKey(Hospital,related_name="doctors",on_delete=models.CASCADE)
     profilePicture = models.ImageField(upload_to='profiles/DoctorProfilePictures',default='profiles/DoctorProfilePictures/dummy_profile.png')
     numberOfReportsAssigned = models.PositiveIntegerField(default=0)

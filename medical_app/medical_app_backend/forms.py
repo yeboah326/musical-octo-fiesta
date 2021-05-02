@@ -7,7 +7,7 @@ class DoctorUserForm(forms.ModelForm):
     
     class Meta:
         model = User
-        fields = ['first_name', 'last_name','username', 'password']
+        fields = ['username', 'password']
         widgets = {
             'password': forms.PasswordInput()
         }
@@ -16,7 +16,7 @@ class DoctorCustomForm(forms.ModelForm):
     
     class Meta:
         model = Doctor
-        fields = ['hospital', 'profilePicture']
+        fields = ['name','hospital', 'profilePicture']
 
 # Nurse Related Form
 class NurseUserForm(forms.ModelForm):

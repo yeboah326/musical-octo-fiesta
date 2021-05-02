@@ -15,12 +15,8 @@
         <div class="container register-form">
             <div class="form">
                 <div class="form-group">
-                    {% render_field doctorUserForm.first_name class="form-control" placeholder="First Name" %}
-                </div>
-                <div class="form-group">
-                    {% render_field doctorUserForm.last_name class="form-control" placeholder="Last Name" %}
-                </div>
-                
+                    {% render_field doctorCustomForm.name class="form-control" placeholder="Full Name" %}
+                </div>                
                 <div class="form-group">
                     {% render_field doctorUserForm.username class="form-control" placeholder="Username" %}
                 </div>

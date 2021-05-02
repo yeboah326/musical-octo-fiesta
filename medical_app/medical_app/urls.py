@@ -17,20 +17,28 @@ Including another URLconf
 from medical_app_backend import views
 from django.contrib import admin
 from django.urls import path
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
+# Generic URLs
+urlpatterns += [
+    path('afterLogIn', views.afterLogInView,name="afterLogIn"),
+    path('logOut', LogoutView.as_view(template_name="main/home.html"),name="logOut")
+]
+
 # Doctor URLs
 urlpatterns += [
     path('doctorSignUp', views.doctorSignUpView,name='doctorSignUp'),
-    path('doctorLogIn', LoginView.as_view(template_name='doctors/doctorLogIn.html')),
+    path('doctorLogIn', LoginView.as_view(template_name='doctors/doctorLogIn.html'),name="doctorLogIn"),
+    path('doctorDashboard', views.doctorDashboardView,name='doctorDashboard'),
 ]
 
 # Nurse URLs
 urlpatterns += [
     path('nurseSignUp', views.nurseSignUpView,name='nurseSignUp'),
-    path('nurseLogIn', LoginView.as_view(template_name='nurses/nurseLogIn.html'))
+    path('nurseLogIn', LoginView.as_view(template_name='nurses/nurseLogIn.html'),name="nurseLogIn"),
+    path('nurseDashboard', views.nurseDashboardView,name='nurseDashboard')
 ]

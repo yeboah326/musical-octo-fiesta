@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital | Doctor Dashboard</title>
+</head>
+<body>
+    <div class="">
+        Number of Report: {{ reportCount }}
+    </div>
+    <div class="">
+        Current Doctor Id: {{ doctorId }}
+    </div>
+
+    <div>
+        Current Doctor Name: {{ doctorName }}
+    </div>
+
+    <div class="">
+        Reports
+        <div class="">
+            {% for report in reports %}
+            <div>
+                Name : {{ report.name }}
+            </div>
+            <div>
+                Doctor Id : {{ report.doctor_id }}
+            </div>
+
+            <a href="/logOut">Log Out</a>
+
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

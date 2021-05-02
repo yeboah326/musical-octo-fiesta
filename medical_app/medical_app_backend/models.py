@@ -20,7 +20,7 @@ class Hospital(models.Model):
 
 class Doctor(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name="doctors")
     name = models.CharField(max_length=50,default="unknownDoctor") # remove default in main project
     hospital = models.ForeignKey(Hospital,related_name="doctors",on_delete=models.CASCADE)
     profilePicture = models.ImageField(upload_to='profiles/DoctorProfilePictures',default='profiles/DoctorProfilePictures/dummy_profile.png')
@@ -40,7 +40,7 @@ class Doctor(models.Model):
 
 class Nurse(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name="nurses")
     name = models.CharField(max_length=50,default="unknownNurse") # remove default in main project
     hospital = models.ForeignKey(Hospital, related_name="nurses", on_delete=models.CASCADE)
     profilePicture = models.ImageField(upload_to='profiles/NurseProfilePictures',default='profiles/DoctorProfilePictures/dummy_profile.png')
@@ -71,7 +71,7 @@ class Report(models.Model):
     completedOn = models.DateTimeField()
     message = models.TextField()
     comments = models.TextField(null=True,blank=True)
-    completed = models.CharField(choices=STATUS,max_length=7)
+    completed = models.CharField(choices=STATUS,max_length=8)
 
     # Will return to this
     @property

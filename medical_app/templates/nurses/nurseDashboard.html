@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital | Nurse Dashboard</title>
+</head>
+<body>
+    <div>
+        Total Number of Reports: {{ reportCount }}
+    </div>
+
+    <div>
+        Current Nurse Details
+        <div>
+            Id: {{ nurseId }}
+        </div>
+        <div>
+            Name: {{ nurseName }}
+        </div>
+    </div>
+
+
+        <a href="/logOut">Log Out</a>
+
+</body>
+</html>

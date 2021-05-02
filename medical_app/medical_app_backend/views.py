@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 
 # Create your views here.
 
+# Doctor Related Views
 def doctorSignUpView(request):
     doctorUserForm = forms.DoctorUserForm()
     doctorCustomForm = forms.DoctorCustomForm()
@@ -24,3 +25,25 @@ def doctorSignUpView(request):
         return HttpResponseRedirect('doctorLogIn')
     return render(request,'doctors/doctorSignUp.html', context=doctorForms)
 
+# Nurse Related Views
+def nurseSignUpView(request):
+    nurseUserForm = forms.NurseUserForm()
+    nurseCustomForm = forms.NurseCustomForm()
+    nurseForms = {'nurseUserForm': nurseUserForm,'nurseCustomForm': nurseCustomForm}
+    if request.method=='POST':
+        nurseUserForm = forms.NurseUserForm(request.POST)
+        nurseCustomForm = forms.NurseCustomForm(request.POST,request.FILES)
+        if nurseUserForm.is_valid() and nurseCustomForm.is_valid():
+            user = nurseUserForm.save()
+            print("nurseUserForm saved")
+            user.set_password(user.password)
+            print("User Password Set")
+            nurse = nurseCustomForm.save(commit=False)
+            print("nurseUserForm saved not commited")
+            user.save()
+            nurse.user = user
+            nurse = nurse.save()
+            nurseGroup = Group.objects.get_or_create(name='NURSE')
+            nurseGroup[0].user_set.add(user)
+        return HttpResponseRedirect('nurseLogIn')
+    return render(request,'nurses/nurseSignUp.html', context=nurseForms)

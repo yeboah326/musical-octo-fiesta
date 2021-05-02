@@ -22,9 +22,9 @@ class Doctor(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     hospital = models.ForeignKey(Hospital,related_name="doctors",on_delete=models.CASCADE)
-    profilePicture = models.ImageField(upload_to='profiles/DoctorProfilePictures',default='profiles/DoctorProfilePictures/dummy')
-    numberOfReportsAssigned = models.IntegerField(default=0)
-    numberOfReportsCompleted = models.IntegerField(default=0)
+    profilePicture = models.ImageField(upload_to='profiles/DoctorProfilePictures',default='profiles/DoctorProfilePictures/dummy_profile.png')
+    numberOfReportsAssigned = models.PositiveIntegerField(default=0)
+    numberOfReportsCompleted = models.PositiveIntegerField(default=0)
 
 
     class Meta:
@@ -37,3 +37,20 @@ class Doctor(models.Model):
     def get_absolute_url(self):
         return reverse("nurse_detail", kwargs={"pk": self.pk})
 
+class Nurse(models.Model):
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50,default="unknownNurse") # remove default in main project
+    hospital = models.ForeignKey(Hospital, related_name="nurses", on_delete=models.CASCADE)
+    profilePicture = models.ImageField(upload_to='profiles/NurseProfilePictures',default='profiles/DoctorProfilePictures/dummy_profile.png')
+    numberOfReportsCreated = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name = ("nurse")
+        verbose_name_plural = ("nurses")
+
+    def __str__(self):
+        return f"{self.user.first_name}  {self.user.last_name}"
+
+    def get_absolute_url(self):
+        return reverse("nurse_detail", kwargs={"pk": self.pk})

@@ -28,3 +28,9 @@ urlpatterns += [
     path('doctorSignUp', views.doctorSignUpView,name='doctorSignUp'),
     path('doctorLogIn', LoginView.as_view(template_name='doctors/doctorLogIn.html')),
 ]
+
+# Nurse URLs
+urlpatterns += [
+    path('nurseSignUp', views.nurseSignUpView,name='nurseSignUp'),
+    path('nurseLogIn', LoginView.as_view(template_name='nurses/nurseLogIn.html'))
+]

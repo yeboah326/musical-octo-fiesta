@@ -34,11 +34,15 @@ urlpatterns += [
     path('doctorSignUp', views.doctorSignUpView,name='doctorSignUp'),
     path('doctorLogIn', LoginView.as_view(template_name='doctors/doctorLogIn.html'),name="doctorLogIn"),
     path('doctorDashboard', views.doctorDashboardView,name='doctorDashboard'),
+    path('doctorDashboardPendingReports', views.doctorDashboardPendingReportsView, name="doctorDashboardPendingReports"),
+    path('doctorDashboardCompletedReports', views.doctorDashboardCompletedReportsView, name="doctorDashboardCompletedReports"),
 ]
 
 # Nurse URLs
 urlpatterns += [
     path('nurseSignUp', views.nurseSignUpView,name='nurseSignUp'),
     path('nurseLogIn', LoginView.as_view(template_name='nurses/nurseLogIn.html'),name="nurseLogIn"),
-    path('nurseDashboard', views.nurseDashboardView,name='nurseDashboard')
+    path('nurseDashboard', views.nurseDashboardView,name='nurseDashboard'),
+    path('nurseDashboardPendingReports', views.nurseDashboardPendingReportsView, name='nurseDashboardPendingReports'),
+    path('nurseDashboardCompletedReports', views.nurseDashboardCompletedReportsView, name='nurseDashboardCompletedReports')
 ]

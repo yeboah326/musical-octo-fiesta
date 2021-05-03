@@ -44,10 +44,12 @@ def doctorSignUpView(request):
 @login_required(login_url='doctorLogIn')
 @user_passes_test(is_doctor)
 def doctorDashboardView(request):
-    reportcount = models.Report.objects.all().filter(doctor_id=request.user.id).count()
-    reports = models.Report.objects.all()
     doctorId = request.user.doctors.id
     doctorName = request.user.doctors.name
+    reportCount = models.Report.objects.all().filter(doctor_id=doctorId).count()
+    pendingReportCount = models.Report.objects.all().filter(completed="pending",doctor_id=doctorId).count()
+    completedReportCount = models.Report.objects.all().filter(completed="completed",doctor_id=doctorId).count()
+    reports = models.Report.objects.all().filter(doctor_id=doctorId)
     # appointmentcount=models.Appointment.objects.all().filter(status=True,doctorId=request.user.id).count()
     # patientdischarged=models.PatientDischargeDetails.objects.all().distinct().filter(assignedDoctorName=request.user.first_name).count()
 
@@ -59,14 +61,52 @@ def doctorDashboardView(request):
     # patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid).order_by('-id')
     # appointments=zip(appointments,patients)
     dashboardInfo={
-    'reportCount':reportcount,
+    'reports': reports,
+    'reportCount':reportCount,
     'doctorId': doctorId,
     'doctorName': doctorName,
-    'reports': reports,
+    'pendingReportCount':pendingReportCount,
+    'completedReportCount':completedReportCount,
     }
     return render(request,'doctors/doctorDashboard.html',context=dashboardInfo)
 
+@login_required(login_url='doctorLogIn')
+@user_passes_test(is_doctor)
+def doctorDashboardPendingReportsView(request):
+    doctorId = request.user.doctors.id
+    doctorName = request.user.doctors.name
+    reportCount = models.Report.objects.all().filter(doctor_id=doctorId).count()
+    pendingReportCount = models.Report.objects.all().filter(completed="pending",doctor_id=doctorId).count()
+    completedReportCount = models.Report.objects.all().filter(completed="completed",doctor_id=doctorId).count()
+    reports = models.Report.objects.all().filter(doctor_id=doctorId,completed="pending")
+    dashboardInfo = {
+        'reports': reports,
+        'reportCount':reportCount,
+        'doctorId': doctorId,
+        'doctorName': doctorName,
+        'pendingReportCount':pendingReportCount,
+        'completedReportCount':completedReportCount,
+    }
+    return render(request,'doctors/doctorDashboardPendingReports.html',context=dashboardInfo)
 
+@login_required(login_url='doctorLogIn')
+@user_passes_test(is_doctor)
+def doctorDashboardCompletedReportsView(request):
+    doctorId = request.user.doctors.id
+    doctorName = request.user.doctors.name
+    reportCount = models.Report.objects.all().filter(doctor_id=doctorId).count()
+    pendingReportCount = models.Report.objects.all().filter(completed="pending",doctor_id=doctorId).count()
+    completedReportCount = models.Report.objects.all().filter(completed="completed",doctor_id=doctorId).count()
+    reports = models.Report.objects.all().filter(doctor_id=doctorId,completed="completed")
+    dashboardInfo = {
+        'reports': reports,
+        'reportCount':reportCount,
+        'doctorId': doctorId,
+        'doctorName': doctorName,
+        'pendingReportCount':pendingReportCount,
+        'completedReportCount':completedReportCount,
+    }
+    return render(request,'doctors/doctorDashboardCompletedReports.html',context=dashboardInfo)
 # -------------------- Nurse Related Views --------------------
 def nurseSignUpView(request):
     nurseUserForm = forms.NurseUserForm()
@@ -93,9 +133,13 @@ def nurseSignUpView(request):
 @login_required(login_url='nurseLogIn')
 @user_passes_test(is_nurse)
 def nurseDashboardView(request):
-    reportcount = models.Report.objects.all().count()
     nurseId = request.user.nurses.id
     nurseName = request.user.nurses.name
+    reportCount = models.Report.objects.all().filter(nurse_id=nurseId).count()
+    pendingReportCount = models.Report.objects.all().filter(completed="pending",nurse_id=nurseId).count()
+    completedReportCount = models.Report.objects.all().filter(completed="completed",nurse_id=nurseId).count()
+
+    reports = models.Report.objects.all().filter(nurse_id=nurseId)
 
     # appointmentcount=models.Appointment.objects.all().filter(status=True,doctorId=request.user.id).count()
     # patientdischarged=models.PatientDischargeDetails.objects.all().distinct().filter(assignedDoctorName=request.user.first_name).count()
@@ -108,10 +152,50 @@ def nurseDashboardView(request):
     # patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid).order_by('-id')
     # appointments=zip(appointments,patients)
     dashboardInfo={
-    'reportCount':reportcount,
+    'reports': reports,
+    'reportCount':reportCount,
     'nurseId':nurseId,
     'nurseName':nurseName,
+    'pendingReportCount':pendingReportCount,
+    'completedReportCount':completedReportCount,
     }
     return render(request,'nurses/nurseDashboard.html',context=dashboardInfo)
 
+@login_required(login_url='nurseLogIn')
+@user_passes_test(is_nurse)
+def nurseDashboardPendingReportsView(request):
+    nurseId = request.user.nurses.id
+    nurseName = request.user.nurses.name
+    reportCount = models.Report.objects.all().filter(nurse_id=nurseId).count()
+    pendingReportCount = models.Report.objects.all().filter(completed="pending",nurse_id=nurseId).count()
+    completedReportCount = models.Report.objects.all().filter(completed="completed",nurse_id=nurseId).count()
+    reports = models.Report.objects.all().filter(nurse_id=nurseId,completed="pending")
+    dashboardInfo = {
+        'reports': reports,
+        'reportCount':reportCount,
+        'nurseId':nurseId,
+        'nurseName':nurseName,
+        'pendingReportCount':pendingReportCount,
+        'completedReportCount':completedReportCount,
+    }
+    return render(request,'nurses/nurseDashboardPendingReports.html',context=dashboardInfo)
+
+@login_required(login_url='nurseLogIn')
+@user_passes_test(is_nurse)
+def nurseDashboardCompletedReportsView(request):
+    nurseId = request.user.nurses.id
+    nurseName = request.user.nurses.name
+    reportCount = models.Report.objects.all().filter(nurse_id=nurseId).count()
+    pendingReportCount = models.Report.objects.all().filter(completed="pending",nurse_id=nurseId).count()
+    completedReportCount = models.Report.objects.all().filter(completed="completed",nurse_id=nurseId).count()
+    reports = models.Report.objects.all().filter(nurse_id=nurseId,completed="completed")
+    dashboardInfo = {
+        'reports': reports,
+        'reportCount':reportCount,
+        'nurseId':nurseId,
+        'nurseName':nurseName,
+        'pendingReportCount':pendingReportCount,
+        'completedReportCount':completedReportCount,
+    }
+    return render(request,'nurses/nurseDashboardCompletedReports.html',context=dashboardInfo)
 

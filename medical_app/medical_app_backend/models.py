@@ -67,7 +67,7 @@ class Report(models.Model):
     )
 
     name = models.CharField(max_length=250,editable=False) # TODO: Will be changed to an auto-generated one
-    reportImage = models.ImageField()
+    reportImage = models.ImageField(upload_to="profiles/ReportImages")
     doctor = models.ForeignKey(Doctor,related_name="assigned_reports",on_delete=models.CASCADE)
     nurse = models.ForeignKey(Nurse, related_name="generated_reports", on_delete=models.CASCADE)
     hospital = models.ForeignKey(Hospital, related_name="reports", on_delete=models.CASCADE)
@@ -96,5 +96,5 @@ class Report(models.Model):
 def report_pre_save_receiver(sender,  instance, **kwargs):
     today = datetime.datetime.today()
     newName = str(instance.hospital).lower().replace(" ","_")
-    instance.name = f"{newName}_{str(today.year)}-{str(today.month)}-{str(today.day)}_{str(today.hour)}:{str(today.minute)}:{str(today.second)}"
+    instance.name = f"{newName}_{str(today.year)}_{str(today.month)}_{str(today.day)}_{str(today.hour)}_{str(today.minute)}_{str(today.second)}"
 

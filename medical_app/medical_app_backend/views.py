@@ -48,7 +48,7 @@ def doctorDashboardView(request):
     doctorName = request.user.doctors.name
     reportCount = models.Report.objects.all().filter(doctor_id=doctorId).count()
     pendingReportCount = models.Report.objects.all().filter(completed="pending",doctor_id=doctorId).count()
-    completedReportCount = models.Report.objects.all().filter(completed="completed",doctor_id=doctorId).count()
+    completedReportCount = models.Report.objects.all().filter(completed="done",doctor_id=doctorId).count()
     reports = models.Report.objects.all().filter(doctor_id=doctorId)
     # appointmentcount=models.Appointment.objects.all().filter(status=True,doctorId=request.user.id).count()
     # patientdischarged=models.PatientDischargeDetails.objects.all().distinct().filter(assignedDoctorName=request.user.first_name).count()
@@ -77,7 +77,7 @@ def doctorDashboardPendingReportsView(request):
     doctorName = request.user.doctors.name
     reportCount = models.Report.objects.all().filter(doctor_id=doctorId).count()
     pendingReportCount = models.Report.objects.all().filter(completed="pending",doctor_id=doctorId).count()
-    completedReportCount = models.Report.objects.all().filter(completed="completed",doctor_id=doctorId).count()
+    completedReportCount = models.Report.objects.all().filter(completed="done",doctor_id=doctorId).count()
     reports = models.Report.objects.all().filter(doctor_id=doctorId,completed="pending")
     dashboardInfo = {
         'reports': reports,
@@ -96,8 +96,8 @@ def doctorDashboardCompletedReportsView(request):
     doctorName = request.user.doctors.name
     reportCount = models.Report.objects.all().filter(doctor_id=doctorId).count()
     pendingReportCount = models.Report.objects.all().filter(completed="pending",doctor_id=doctorId).count()
-    completedReportCount = models.Report.objects.all().filter(completed="completed",doctor_id=doctorId).count()
-    reports = models.Report.objects.all().filter(doctor_id=doctorId,completed="completed")
+    completedReportCount = models.Report.objects.all().filter(completed="done",doctor_id=doctorId).count()
+    reports = models.Report.objects.all().filter(doctor_id=doctorId,completed="done")
     dashboardInfo = {
         'reports': reports,
         'reportCount':reportCount,

@@ -49,6 +49,8 @@
     <div>
         Status: {{ report.completed }}
     </div>
+    <a href="{{ report.get_absolute_url }}">View Report</a>
+
     {% endfor %}
     <br>
     <a href="/logOut">Log Out</a>

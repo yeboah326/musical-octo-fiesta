@@ -41,6 +41,10 @@
             <div>
                 Doctor Id : {{ report.doctor_id }}
             </div>
+            <div>
+                Status: {{ report.completed }}
+            </div>
+
 
             <a href="{{ report.get_absolute_url }}">View Report</a>
             {% endfor %}

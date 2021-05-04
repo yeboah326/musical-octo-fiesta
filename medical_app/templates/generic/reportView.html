@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+{% load widget_tweaks %}
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital | Patient Report View</title>
+</head>
+<body>
+    <div>
+        Patient Name
+    </div>
+    <div>
+        {{ report.patientName }}
+    </div>
+    <br>
+    <div>
+        Report Message
+    </div>
+    <div>
+        {{ report.message }}
+    </div>
+    <br>
+
+    <div>
+        Report Image
+    </div>
+    <div>
+        <img src="{{ report.reportImage.url }}" alt="">
+    </div>
+    <br>
+    <div>Assigned Nurse</div>
+    <div>{{ report.nurse }}</div>
+    
+    <br>
+
+    <div>Comments</div>
+    {% if report.comments %}
+        <div>
+            {{ report.comments }}
+        </div>
+    {% else %}
+        <div>
+            None
+        </div>
+    {% endif %}
+
+    <br>
+    <div>
+        Status: {{ report.completed }}
+    </div>
+
+    {% if isDoctor %}
+    <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {% render_field reportForm.comments placeholder="Comments" class="form-control" %}
+            </div>
+            <div class="form-group">
+                {% render_field reportForm.completed class="form-control" %}
+            </div>
+            <button type="submit">Update</button>
+        </form>
+    
+    {% endif %}
+</body>
+</html>

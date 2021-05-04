@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from . import forms
 from django.http import HttpResponseRedirect
@@ -81,7 +81,7 @@ def doctorDashboardPendingReportsView(request):
     doctorName = request.user.doctors.name
     reportCount = models.Report.objects.all().filter(doctor_id=doctorId).count()
     pendingReportCount = models.Report.objects.all().filter(completed="pending",doctor_id=doctorId).count()
-    completedReportCount = models.Report.objects.all().filter(completed="done",doctor_id=doctorId).count()
+    completedReportCount = models.Report.objects.all().filter(completed="completed",doctor_id=doctorId).count()
     reports = models.Report.objects.all().filter(doctor_id=doctorId,completed="pending")
     dashboardInfo = {
         'reports': reports,
@@ -192,8 +192,8 @@ def nurseDashboardCompletedReportsView(request):
     nurseName = request.user.nurses.name
     reportCount = models.Report.objects.all().filter(nurse_id=nurseId).count()
     pendingReportCount = models.Report.objects.all().filter(completed="pending",nurse_id=nurseId).count()
-    completedReportCount = models.Report.objects.all().filter(completed="completed",nurse_id=nurseId).count()
-    reports = models.Report.objects.all().filter(nurse_id=nurseId,completed="completed")
+    completedReportCount = models.Report.objects.all().filter(completed="done",nurse_id=nurseId).count()
+    reports = models.Report.objects.all().filter(nurse_id=nurseId,completed="done")
     dashboardInfo = {
         'reports': reports,
         'reportCount':reportCount,
@@ -214,8 +214,16 @@ def reportView(request, name):
             reportForm.save()
             messages.success(request, "You successfully updated the report.")
         return redirect('doctorDashboard')
-    reportDict = {
-        "report":report,
-        "reportForm":reportForm
-        }
-    return render(request, 'doctors/doctorReportView.html',context=reportDict)
+    try:
+        doctorId = request.user.doctors.id
+        reportDict = {
+            "report":report,
+            "reportForm":reportForm,
+            "isDoctor": doctorId,
+            }
+    except User.doctors.RelatedObjectDoesNotExist:
+        reportDict = {
+            "report":report,
+            "reportForm":reportForm,
+            }
+    return render(request, 'generic/reportView.html',context=reportDict)

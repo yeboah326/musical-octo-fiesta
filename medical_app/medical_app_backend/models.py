@@ -67,7 +67,7 @@ class Report(models.Model):
     )
 
     name = models.CharField(max_length=250,editable=False) # TODO: Will be changed to an auto-generated one
-    reportImage = models.ImageField(upload_to="profiles/ReportImages")
+    reportImage = models.ImageField(upload_to="profiles/ReportImages") #TODO: change the name of the default directory
     doctor = models.ForeignKey(Doctor,related_name="assigned_reports",on_delete=models.CASCADE)
     nurse = models.ForeignKey(Nurse, related_name="generated_reports", on_delete=models.CASCADE)
     hospital = models.ForeignKey(Hospital, related_name="reports", on_delete=models.CASCADE)
@@ -75,7 +75,8 @@ class Report(models.Model):
     completedOn = models.DateTimeField(auto_now=True)
     message = models.TextField()
     comments = models.TextField(null=True,blank=True)
-    completed = models.CharField(choices=STATUS,max_length=8,default="pending",editable=False)
+    completed = models.CharField(choices=STATUS,max_length=8,default="pending")
+    patientName = models.CharField(max_length=100, default="unknown")
 
     #TODO: Will return to this
     @property
@@ -90,7 +91,7 @@ class Report(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("report_detail", kwargs={"pk": self.pk})
+        return reverse("reportView", kwargs={"name":self.name})
     
 @receiver(pre_save, sender=Report)
 def report_pre_save_receiver(sender,  instance, **kwargs):

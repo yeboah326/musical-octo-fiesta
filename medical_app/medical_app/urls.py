@@ -18,6 +18,9 @@ from medical_app_backend import views
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,7 +29,8 @@ urlpatterns = [
 # Generic URLs
 urlpatterns += [
     path('afterLogIn', views.afterLogInView,name="afterLogIn"),
-    path('logOut', LogoutView.as_view(template_name="main/home.html"),name="logOut")
+    path('logOut', LogoutView.as_view(template_name="main/home.html"),name="logOut"),
+    path('report/<str:name>/',views.reportView,name="reportView")
 ]
 
 # Doctor URLs
@@ -46,3 +50,6 @@ urlpatterns += [
     path('nurseDashboardPendingReports', views.nurseDashboardPendingReportsView, name='nurseDashboardPendingReports'),
     path('nurseDashboardCompletedReports', views.nurseDashboardCompletedReportsView, name='nurseDashboardCompletedReports')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

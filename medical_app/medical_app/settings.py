@@ -135,3 +135,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # URL directs here after login is successful
 LOGIN_REDIRECT_URL='/afterLogIn'
+
+MEDIA_ROOT = (
+    os.path.join(BASE_DIR, 'media')   
+)
+
+MEDIA_URL = '/media/'
+

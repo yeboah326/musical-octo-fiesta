@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Doctor, Nurse
+from .models import Doctor, Nurse, Report
 
 # Doctor Related Forms
 class DoctorUserForm(forms.ModelForm):
@@ -33,3 +33,8 @@ class NurseCustomForm(forms.ModelForm):
         model = Nurse
         fields = ['name', 'hospital','profilePicture'] 
 
+class ReportUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model =  Report
+        fields = ['comments', 'completed']

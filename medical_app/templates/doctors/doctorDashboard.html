@@ -42,9 +42,9 @@
                 Doctor Id : {{ report.doctor_id }}
             </div>
 
-            <a href="/logOut">Log Out</a>
-
+            <a href="{{ report.get_absolute_url }}">View Report</a>
             {% endfor %}
+            <a href="/logOut">Log Out</a>
         </div>
     </div>
 </body>

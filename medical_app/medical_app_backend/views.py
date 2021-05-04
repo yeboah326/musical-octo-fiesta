@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import Group
+from django.contrib import messages
 from . import forms
 from django.http import HttpResponseRedirect
 from . import models
@@ -13,6 +14,9 @@ def is_doctor(user):
 
 def is_nurse(user):
     return user.groups.filter(name='NURSE').exists()
+
+def is_doctor_or_nurse(user):
+    return is_doctor(user) or is_nurse(user)
 
 # -------------------- After User Log In --------------------
 def afterLogInView(request):
@@ -107,6 +111,7 @@ def doctorDashboardCompletedReportsView(request):
         'completedReportCount':completedReportCount,
     }
     return render(request,'doctors/doctorDashboardCompletedReports.html',context=dashboardInfo)
+
 # -------------------- Nurse Related Views --------------------
 def nurseSignUpView(request):
     nurseUserForm = forms.NurseUserForm()
@@ -199,3 +204,18 @@ def nurseDashboardCompletedReportsView(request):
     }
     return render(request,'nurses/nurseDashboardCompletedReports.html',context=dashboardInfo)
 
+# -------------------- Common Views Doctor/Nurse --------------------
+@user_passes_test(is_doctor_or_nurse)
+def reportView(request, name):
+    report = get_object_or_404(models.Report, name=name)
+    reportForm = forms.ReportUpdateForm(instance=report,data=request.POST)
+    if request.method == 'POST':
+        if reportForm.is_valid():
+            reportForm.save()
+            messages.success(request, "You successfully updated the report.")
+        return redirect('doctorDashboard')
+    reportDict = {
+        "report":report,
+        "reportForm":reportForm
+        }
+    return render(request, 'doctors/doctorReportView.html',context=reportDict)
